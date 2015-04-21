@@ -1,0 +1,144 @@
+.selected-main-tab, .main-tab {
+	display:inline-block;
+	width:12%;
+	text-align:center;
+	border:1px solid #C7C7C7;
+	border-bottom:1px solid black;
+	padding:14px;
+	background:#F0F0F0;
+	margin-left:-2px;
+	margin-right:-2px;
+	border-radius:12px 12px 0px 0px;
+	cursor:pointer;
+}
+.selected-main-tab {
+	border:1px solid black;
+	border-bottom:0px;
+	background:white;
+	cursor:default;
+}
+.main-tabs {
+	text-align:center;
+}
+	
+#preview-window {
+	position:absolute;
+	right:18px;
+	top:72px;
+	
+}
+
+#detail-tab-frame {
+	width:600px;
+	padding:15px;
+	margin:4px;
+	
+}
+
+.selected-doodle-color-box, .doodle-color-box {
+	border:3px solid #888888;
+	border-radius:2px;
+	width:40px;
+	height:40px;
+	display:inline-block;
+}
+
+.selected-doodle-color-box {
+	border:3px solid #000000;
+
+}
+
+input {
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	width:500px;
+}
+
+.selected-character-button, .character-button {
+	border:6px solid white;
+	background-color:black;
+	height:80px;
+	width:60px;
+}
+.selected-character-button {
+	border:6px solid red;
+}
+
+.selected-sound-button, .sound-button {
+	display:inline-block;
+	border:6px solid white;
+	width:44px;
+	height:50px;
+	background:url("img/sound.png");
+} 
+
+.selected-sound-button {
+	border:6px solid blue;
+}
+
+.warning {
+	color:red;
+}
+
+textarea {
+	width:500px;
+	height:150px;
+}
+
+.error-loading {
+	display:none;
+	color:red;
+}
+
+.main-hint {
+	font-size:10pt;
+}
+
+#fullscreen-window-background {
+	position:absolute;
+	height:100%;
+	width:100%;
+	top:0px;
+	left:0px;
+	background-color:#808080;
+	opacity:0.7;
+	display:none;
+}
+
+#omgbam {
+	position:absolute;
+	height:80%;
+	width:80%;
+	top:10%;
+	left:10%;
+	background-color:yellow;
+	display:none;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	
+	border:5px solid #404040;
+	border-radius:10px;
+}
+#bam-controls  {
+	position:absolute;
+	height:100%;
+	width:100%;
+	top:0px;
+	left:10px;
+	
+}
+
+.panel-option, .horizontal-panel-option {
+	padding:9px;
+	margin:9px;
+	width:140px;
+}
+.panel-option-blink, .horizontal-panel-option-blink {
+	padding:9px;
+	margin:9px;
+	width:140px;
+}
+#play-album, #play-section, #play-mm, #play-song {
+	padding:30px;
+	width:30px;
+	margin-left:37px;
+}

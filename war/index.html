@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Open Meme Gallery</title>
+
+	<link rel="stylesheet" href="meme.css" type="text/css" />
+
+  </head>
+
+  <body>
+  <h1>Open Meme Gallery</h1>
+  <div>
+  <a href="create.jsp">Make Your Own Animated Meme!</a>
+  </div>
+      
+	
+	<div id="meme-list"></div>
+
+	<script src="util.js">
+	</script>
+	<script>
+	var list = document.getElementById("meme-list");
+	var newDiv;
+	var newChildDiv;
+	var newContent;
+	var meme;
+	var videoId;
+	var videoIdParam = "?v=";
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/meme", true);
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState == 4){
+
+            var ooo = JSON.parse(xhr.responseText);
+            if (ooo && ooo.result && ooo.result === "good") {
+            
+            	for (var i = 0; i < ooo.data.length; i++) {
+            		meme = ooo.data[i];		
+
+            		newDiv = document.createElement("a");
+            		newDiv.href = "/meme.jsp?id=" + meme.id;
+            		newDiv.className = "meme";
+
+					newContent = document.createElement("div");
+					newContent.className = "meme-content";
+					
+            		newChildDiv = document.createElement("div");
+            		newChildDiv.innerHTML = "Posted: " + omg.util.getTimeCaption(meme.datetime);
+            		newChildDiv.className = "meme-datetime";
+            		newContent.appendChild(newChildDiv);
+
+            		newChildDiv = document.createElement("h2");
+            		newChildDiv.innerHTML = meme.title;
+            		newChildDiv.className = "meme-title";
+            		newContent.appendChild(newChildDiv);
+            							
+            		newChildDiv = document.createElement("div");
+            		newChildDiv.innerHTML = meme.text;
+            		newChildDiv.className = "meme-text";
+            		newContent.appendChild(newChildDiv);
+
+					if (meme.tags) {            		
+	            		newChildDiv = document.createElement("span");
+	            		newChildDiv.innerHTML = "Tags: ";
+	            		newChildDiv.className = "meme-tags-caption";
+	            		newContent.appendChild(newChildDiv);
+	
+	            		newChildDiv = document.createElement("span");
+	            		newChildDiv.innerHTML = meme.tags;
+	            		newChildDiv.className = "meme-tags";
+	            		newContent.appendChild(newChildDiv);
+					}
+					newDiv.appendChild(newContent);
+					            		
+            		newChildDiv = document.createElement("img");
+            		newChildDiv.src = meme.picture;
+            		newChildDiv.className = "meme-picture";
+            		newDiv.appendChild(newChildDiv);
+
+
+
+            		list.appendChild(newDiv);
+            	}
+            
+            }
+
+        }
+    };
+    xhr.send();        
+	
+	</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50186685-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+<small>(powered by the Open Meme Gallery)</small>
+  </body>
+</html>

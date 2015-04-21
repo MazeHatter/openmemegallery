@@ -1,0 +1,75 @@
+	body {
+		max-width:600px;
+		margin:auto;
+		padding-left:5px;
+	}
+	
+	.meme {
+		color:#000000;
+		text-decoration:none;
+		display:block;
+		position:relative;
+		width:500px;
+		height:160px;
+		border-bottom:1px solid #909090;
+		border-radius:3px;
+		margin:18px;		
+	}
+	
+	.meme:visited {
+		color:#000000;
+	}
+
+	.meme:hover {
+		background-color:#FFA994;
+	}
+
+
+	.meme-datetime {
+		font-color:#808080;
+		font-size:10pt;
+	}
+	
+	.meme-tags  {
+		background-color:#C0C0C0;
+		padding:4px;
+		border-radius:4px;
+	}
+	
+	.meme-content {
+		margin-left:180px;
+	}	
+	
+	.meme-video {
+		margin-bottom:20px;
+	}
+	
+	.meme-title {
+		margin-top:3px;
+		margin-bottom:3px;
+		font-size:20pt;
+		font-style:bold;
+	}
+	
+	.meme-picture {
+		position:absolute;
+		left:0px;
+		top:0px;
+		height:160px;
+		width:160px;
+	}
+	
+	.meme-text {
+		margin-top:10px;
+		margin-bottom:10px;
+	}
+
+	
+	.hide-img {
+		position:absolute;
+		width:0px;
+		height:0px;
+	}
+	
+	.twitter-share-button[style] { vertical-align: text-bottom !important; }
+	

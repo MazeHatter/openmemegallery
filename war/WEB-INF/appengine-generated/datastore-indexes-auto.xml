@@ -1,0 +1,11 @@
+<!-- Indices written at Mon, 20 Apr 2015 18:21:21 PDT -->
+
+<datastore-indexes>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Meme" ancestor="false" source="auto">
+        <property name="front" direction="asc"/>
+        <property name="datetime" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>
