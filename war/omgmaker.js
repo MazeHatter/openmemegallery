@@ -665,10 +665,15 @@ function soundtrackStartTouch(x, y, tool){
 	}
 	tool.loopCounter = Date.now() - time;
 	if (strack.currentSound > -1){
-		strack.sounds[strack.currentSound].data[strack.sounds[strack.currentSound].data.length] =
-			[time, -1];
-		strack.soundAudios[strack.currentSound].currentTime = 0;
-		strack.soundAudios[strack.currentSound].play();
+		
+		strack.sounds[strack.currentSound].data.push([time, -1]);
+		if (strack.sounds[strack.currentSound].type == "omgsong") {
+			omg.player.play(strack.sounds[strack.currentSound].omgsong);
+		}
+		else {
+			strack.soundAudios[strack.currentSound].currentTime = 0;
+			strack.soundAudios[strack.currentSound].play();			
+		}
 	}
 	else {
 		var wasFresh = movie.scene.soundtrack.fresh; 
@@ -732,7 +737,10 @@ function soundtrackTouchEnd(tool){
 		}
 		else {
 			sdata[sdata.length - 1][1] = Date.now() - tool.loopCounter;
-			strack.soundAudios[strack.currentSound].pause();
+			if (strack.sounds[strack.currentSound].type == "omgsong")
+				omg.player.stop();
+			else
+				strack.soundAudios[strack.currentSound].pause();
 		}
 	}
 	else {
@@ -1163,27 +1171,46 @@ function updateAudioChannels(nowInLoop){
 	drawSoundtrack();
 	if (movie.scene.paused){ 
 		for (var is = 0; is < strack.sounds.length; is++){
-			strack.soundAudios[is].pause();
+			if (strack.soundAudios[is])
+				strack.soundAudios[is].pause();
 		}
+		if (typeof(omg) == "object" && typeof(omg.player) == "object" &&
+				omg.player.playing)
+			omg.player.stop();
 	}
 	else if (strack.soundI < strack.playList.length && strack.playList[strack.soundI].start < nowInLoop){
+		
+		var sound = strack.sounds[strack.playList[strack.soundI].sound];
+		var makePlay;
+
 		var aa = strack.soundAudios[strack.playList[strack.soundI].sound];
-		var makePlay = function(){
-			if (aa.readyState == 4){
+		makePlay = function(){
+			if (sound.type == "omgsong") {
+				omg.player.play(sound.omgsong);			
+				aa = {};
+				aa.started = strack.playList[strack.soundI].start;
+				aa.currentTime = (nowInLoop - aa.started) / 1000;
+				aa.pause = function () {omg.player.stop()};
+				strack.playingSounds.push({"audio": aa, 
+					"start": strack.playList[strack.soundI].start,
+					"stop": strack.playList[strack.soundI].stop});
+				strack.soundI++;				
+			}
+			else if (aa.readyState == 4){
 				if (nowInLoop < strack.playList[strack.soundI].stop){
 					aa.started = strack.playList[strack.soundI].start;
 					aa.currentTime = (nowInLoop - aa.started) / 1000;
 					aa.play();
-					strack.playingSounds[strack.playingSounds.length] = {"audio": aa, 
+					strack.playingSounds.push({"audio": aa, 
 							"start": strack.playList[strack.soundI].start,
-							"stop": strack.playList[strack.soundI].stop};
+							"stop": strack.playList[strack.soundI].stop});
 				}
 				strack.soundI++;				
 			}
 			else {
 				setTimeout(makePlay, 250);
 			}
-		};
+		};			
 		makePlay();
 	}
 	for (var it = 0; it < strack.playingSounds.length; it++){
@@ -1616,16 +1643,8 @@ function recallCharacter(character){
 }
 
 function recallSound(n){
-	if (document.getElementById("sound-list")){
-		if (movie.scene.soundtrack.currentSound > -1){
-			var oo = document.getElementById("sound" + movie.scene.soundtrack.currentSound);
-			oo.style.borderWidth = "0px";
-			oo.style.margin = "8px";
-		}
-		var ooo = document.getElementById("sound" + n);
-		ooo.style.borderWidth = "8px";
-		ooo.style.margin = "0px";		
-	}
+	if (typeof(n) == "object") {
+		n = n.i;	}
 
 	movie.scene.soundtrack.currentSound = n;
 }
@@ -2156,17 +2175,10 @@ function addSoundFile(template){
 }
 
 
-function addOpenMusicJson(json) {
-	if (typeof(json) == "string"){
-		var ooo = {"json": json, 
-			"data": [], "type": "omgsong"};
-		template = ooo;
-		
-		try {
-			template.omgsong = JSON.parse(json);
-		}
-	}
+function addOpenMusicSong(song) {
 
+	var template = {"data": [], "type": "omgsong", 
+		"omgsong": song};
 
 	var ii = movie.scene.soundtrack.sounds.length;
 	template.i = ii;

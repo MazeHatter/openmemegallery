@@ -9,14 +9,22 @@
     String blobKey = request.getParameter("img-key");
 	if (blobKey == null) {
 		blobKey = "";
-	}    
+	}
+	
+	String openmusicurl;
+	if (request.getServerName().equals("localhost")) {
+		openmusicurl = "http://localhost:8889";
+	}
+	else {
+		openmusicurl = "http://openmusicgallery.appspot.com";
+	}     
 %>
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>OMG Creator</title>
-    <link rel="stylesheet" href="http://localhost:8889/omgbam.css" type="text/css" />    
+    <title>OMG Creator</title>    
+    <link rel="stylesheet" href="<%= openmusicurl%>/omgbam.css" type="text/css" />
     <link rel="stylesheet" href="create.css" type="text/css" />    
   </head>
 
@@ -162,14 +170,21 @@
 	<div id="fullscreen-window-background">
 	</div>
 	
+	<div id="omgbam-dialog">
+	
+		<div class="powered-by-omgbam">
+			Powered by <a target="_OUT" href="http://openmusicgallery.appspot.com/omgbam.jsp">OMGBam</a> 
+			on <a target="_OUT" href="http://openmusicgallery.appspot.com/">OpenMusicGallery</a>
+		</div>
+	
 	<div id="omgbam">
 	
 		<div id="master"><div class="artist">
 			<div class="song"></div>
 		</div></div>
 
-		<div id="bam-controls">				
-		
+		<div id="bam-controls">
+				
 		<div id="melody-maker" class="area">
 			<div class="remixer-caption" id="melody-maker-caption">Melody</div>	
 			<canvas id="melody-maker-canvas">
@@ -238,6 +253,12 @@
 		
 		</div> <!--omgbam-controls-->	
 	</div> <!--omgbam-->
+
+	<div class="omgbam-dialog-buttons">
+		<div class="horizontal-panel-option" id="omgbam-dialog-ok">OK</div>	
+		<div class="horizontal-panel-option" id="omgbam-dialog-cancel">Cancel</div>
+	</div>
+	</div> <!--omgbam-dialog-->
 	
  
 <script src="omgmaker.js"></script>
@@ -280,19 +301,15 @@ imgPreview.onload = function () {
 
 
 	// url for openmusicgallery
-	var _omusic_url = "http://localhost:8889";
+	var _omusic_url = "<%= openmusicurl%>";
 
 </script>
 
-<!--<script src="http://openmusicgallery.appspot.com/omg_partsui.js"></script>
-<script src="http://openmusicgallery.appspot.com/omg_player.js"></script>
-<script src="http://openmusicgallery.appspot.com/omg_util.js"></script>-->
+<script src="<%= openmusicurl%>/omgbam.js"></script>
+<script src="<%= openmusicurl%>/omg_partsui.js"></script>
+<script src="<%= openmusicurl%>/omg_player.js"></script>
+<script src="<%= openmusicurl%>/omg_util.js"></script>
 	
-<script src="http://localhost:8889/omgbam.js"></script>
-<script src="http://localhost:8889/omg_partsui.js"></script>
-<script src="http://localhost:8889/omg_player.js"></script>
-<script src="http://localhost:8889/omg_util.js"></script>
-
 	</div> <!--main-body-->
   </body>
 </html>

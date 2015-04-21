@@ -268,22 +268,58 @@ MemeCreator.prototype.createMelody = function () {
 
 MemeCreator.prototype.showOMGBam = function (params) {
 
+	var mc = this;
+	
 	var fullscreenWindow = document.getElementById("fullscreen-window-background");
 	var omgbam = document.getElementById("omgbam");
+	var omgbamDialog = document.getElementById("omgbam-dialog");
 	
-	omgbam.style.display = "block";
+	omgbamDialog.style.display = "block";
 	
 	fullscreenWindow.style.display = "block";
-	fullscreenWindow.onclick = function () {
-		fullscreenWindow.onclick = null;
-		
+	
+	var closeOMGBamDialog = function () {
 		fullscreenWindow.style.display = "none";
-		omgbam.style.display = "none";
+		omgbamDialog.style.display = "none";
 		omg.player.stop();
 	};
+	
+	var okButton = document.getElementById("omgbam-dialog-ok")
+	okButton.onclick = function () {
+		var data;
+		var song;
+		var section;
+		if (bam.song.sections.length > 0) {
+			song = bam.song;
+		}
+		else if (bam.section.parts.lengt > 0) {
+			song = new OMGSong();
+			song.sections.push(bam.section);
+		}
+		else {
+			song = new OMGSong();
+			section = new OMGSection();
+			song.sections.push(section);
+			section.parts.push(bam.part)
+		}
+		
+		song = addOpenMusicSong(song);
+		mc.makeSoundButton(song);
+		
+		closeOMGBamDialog();		
+	};
 
-	//bam.setup("http://openmusicgallery.appspot.com", false);
-	bam.setup("http://localhost:8889", false);
+	var cancelButton = document.getElementById("omgbam-dialog-cancel")
+	cancelButton.onclick = function () {
+		closeOMGBamDialog();		
+	};
+
+	var omusic_url = "http://openmusicgallery.appspot.com";
+	if (typeof(_omusic_url) == "string") {
+		omusic_url = _omusic_url; // global variables
+	}
+	bam.setup(omusic_url, false);
+
 	bam.load(params);
 	bam.offsetTop = 60;
 };
