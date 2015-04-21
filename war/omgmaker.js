@@ -2139,7 +2139,7 @@ function addBackdrop(filename, callback, errorCallback){
 function addSoundFile(template){
 	if (typeof(template) == "string"){
 		var ooo = {"src": template, 
-			"data": []};
+			"data": [], "type": "file"};
 		template = ooo;
 	}
 	var aa = new Audio();
@@ -2153,6 +2153,30 @@ function addSoundFile(template){
 	recallSound(ii);
 	 
 	return template;
+}
+
+
+function addOpenMusicJson(json) {
+	if (typeof(json) == "string"){
+		var ooo = {"json": json, 
+			"data": [], "type": "omgsong"};
+		template = ooo;
+		
+		try {
+			template.omgsong = JSON.parse(json);
+		}
+	}
+
+
+	var ii = movie.scene.soundtrack.sounds.length;
+	template.i = ii;
+	movie.scene.soundtrack.sounds[ii] = template;
+	movie.scene.soundtrack.soundAudios[ii] = false;
+
+	recallSound(ii);
+	 
+	return template;
+	
 }
 
 function addVideoFile(template){
